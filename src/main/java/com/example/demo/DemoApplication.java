@@ -35,6 +35,12 @@ public class DemoApplication {
 			List<Author> authors = repository.findByLastName("Baz");
 			log.info("Found next authors:");
 			log.info(authors.stream().map(Author::toString).collect(Collectors.joining(",")));
+			Optional<Author> a = repository.findById(1L);
+			a.ifPresent((author -> {
+				log.info(
+					String.format("[%s|%s|%s]", author.getId(), author.getFirstName(), author.getLastName())
+				);
+			}));
 		};
 	}
 

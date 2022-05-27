@@ -13,9 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "author")
 @Getter
 @Setter
+@Table(name = "author")
 @RequiredArgsConstructor
 public class Author {
     @Id
