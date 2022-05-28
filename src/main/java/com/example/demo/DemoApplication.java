@@ -20,7 +20,6 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-	@Bean
 	public CommandLineRunner demo(AuthorRepository repository) {
 		return (args) -> {
 			repository.save(new Author("Alex", "Foo"));
