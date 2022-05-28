@@ -30,7 +30,6 @@ public class AuthorControllerTest {
 
     @BeforeEach
     public void initData() {
-        authorRepository.deleteAll();
         authorRepository.save(new Author("Sam", "Bam"));
         authorRepository.save(new Author("Dan", "Man"));
         authorRepository.save(new Author("Alex", "Rollex"));
@@ -49,6 +48,41 @@ public class AuthorControllerTest {
         Assertions.assertEquals(
             "{\"id\":1,\"first_name\":\"Sam\",\"last_name\":\"Bam\"}",
             result.getResponse().getContentAsString()
+        );
+    }
+
+    @Test
+    @DisplayName("Должен обрабатывать ошибку если автор не найден")
+    public void shouldHandleNotFoundException() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/author/0")
+            .accept(MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(requestBuilder)
+            .andExpect(status().isNotFound())
+            .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+        String correctResponse = "{\"message\":\"Author with id=0 not exists\"}";
+        Assertions.assertEquals(correctResponse, result.getResponse().getContentAsString());
+    }
+
+    @Test
+    @DisplayName("Должен возвращать список авторов")
+    public void shouldReturnAuthorsList() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get("/author")
+                .accept(MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+        String correctResponse = "[" +
+            "{\"id\":1,\"first_name\":\"Sam\",\"last_name\":\"Bam\"}," +
+            "{\"id\":2,\"first_name\":\"Dan\",\"last_name\":\"Man\"}," +
+            "{\"id\":3,\"first_name\":\"Alex\",\"last_name\":\"Rollex\"}"  +
+        "]";
+        Assertions.assertEquals(
+                correctResponse,
+                result.getResponse().getContentAsString()
         );
     }
 }

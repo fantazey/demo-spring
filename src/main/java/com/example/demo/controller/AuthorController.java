@@ -10,25 +10,35 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@RequestMapping(value = "/author")
 public class AuthorController {
     @Autowired
     private AuthorService authorService;
     @Autowired
     private AuthorMapper authorMapper;
 
-    @GetMapping(value = "/author/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<AuthorDto> getById(@PathVariable("id") Long id) {
         Author author = authorService.getAuthorById(id);
-        AuthorDto dto = authorMapper.AuthorToDto(author);
+        AuthorDto dto = authorMapper.authorToDto(author);
         return ResponseEntity.status(HttpStatus.OK).body(dto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AuthorDto>> getList() {
+        List<Author> authors = authorService.getAll();
+        List<AuthorDto> result = authorMapper.authorsToDtos(authors);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ExceptionHandler({EntityNotFoundException.class})
