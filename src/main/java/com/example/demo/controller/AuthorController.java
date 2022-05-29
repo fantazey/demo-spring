@@ -23,9 +23,9 @@ import java.util.Optional;
 @RequestMapping(value = "/author")
 public class AuthorController {
     @Autowired
-    private AuthorService authorService;
+    AuthorService authorService;
     @Autowired
-    private AuthorMapper authorMapper;
+    AuthorMapper authorMapper;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<AuthorDto> getById(@PathVariable("id") Long id) {

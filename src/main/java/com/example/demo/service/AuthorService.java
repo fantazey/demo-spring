@@ -14,7 +14,7 @@ import java.util.stream.StreamSupport;
 @Service
 public class AuthorService {
     @Autowired
-    private AuthorRepository authorRepository;
+    AuthorRepository authorRepository;
 
     public Author getAuthorById(Long id) {
         Optional<Author> optionalAuthor = authorRepository.findById(id);
