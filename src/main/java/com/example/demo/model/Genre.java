@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -16,6 +18,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@RequiredArgsConstructor
 @Entity
 @Table(name = "genre")
 public class Genre {

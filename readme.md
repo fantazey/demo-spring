@@ -4,7 +4,7 @@
 Добавил тестов
 
 Добавил использование "нормальной" базы, а не H2. База запускается внутри контейнера:  
-`docker run --name demo-db -p 3307:3306 -e MYSQL_ROOT_PASSWORD=1 -d mysql`
+`docker run --name demo-db --restart unless-stopped -p 3307:3306 -e MYSQL_ROOT_PASSWORD=1 -d mysql`
 После запуска контейнера надо !ПОДОЖДАТЬ! потом залогиниться:  
 `mysql --host=localhost --port 3307 -u root -p`
 Создать БД и пользователя, который указан в _application.properties_:  
